@@ -6,44 +6,58 @@ using System.Threading.Tasks;
 
 namespace Agenda
 {
-    internal class ManagerActivitati
+    class ManagerActivitati
     {
+        private const int NR_MAX_Activitati = 100;
+
         // Lista in care se salveaza activitatile
-        private List<Activitate> activitati;
+        private Activitate[] activitati;
+        private int nrActivitati;
 
         // Constructor
         public ManagerActivitati()
         {
-            activitati = new List<Activitate>();
+            activitati = new Activitate[NR_MAX_Activitati];
+            nrActivitati = 0;
         }
 
         // Adauga o activitate in lista
-        public void AdaugaActivitate(Activitate element)
+        public void AdaugaActivitate(Activitate activitate)
         {
-            activitati.Add(element);
+            activitati[nrActivitati] = activitate;
+            nrActivitati++;
         }
 
         // Sterge o activitate din lista
-        public void StergeActivitate(Activitate element)
+        /*public void StergeActivitate(Activitate element)
         {
-            activitati.Remove(element);
+            
+        }*/
+
+        // Returneaza toate activitatile din lista
+        public Activitate[] GetActivitati(out int nrActivitati)
+        {
+            nrActivitati = this.nrActivitati;
+            return activitati;
         }
 
-        // Afiseaza toate activitatile din lista
-        public void AfiseazaActivitati()
+        //Functia de cautare
+        public Activitate[] CautaActivitati(string nume, string tip, DateTime data)
         {
-            if (activitati.Count == 0)
+            List<Activitate> rezultate = new List<Activitate>();
+            for(int i = 0; i<nrActivitati; i++)
             {
-                Console.WriteLine("Nu exista activitati.");
-                return;
+                bool matchNume = string.IsNullOrEmpty(nume) || activitati[i].Nume.Equals(nume, StringComparison.OrdinalIgnoreCase);
+                bool matchTip = string.IsNullOrEmpty(tip) || activitati[i].Tip.Equals(tip, StringComparison.OrdinalIgnoreCase);
+                bool matchData = data == DateTime.MinValue || activitati[i].Data.Date == data.Date;
+
+                if (matchNume && matchTip && matchData)
+                {
+                    rezultate.Add(activitati[i]);
+                }
             }
 
-            Console.WriteLine("Activitati:");
-            foreach (Activitate element in activitati)
-            {
-                Console.WriteLine(element.Detalii());
-                Console.WriteLine();
-            }
+            return rezultate.ToArray();
         }
     }
 }
