@@ -26,6 +26,7 @@ namespace Agenda
         {
             string detalii = $"Activitate: {Nume}\nZiua si timpul: {Data}\nDescrierea: {Descriere}";
             return detalii;
+
         }
     }
 }
