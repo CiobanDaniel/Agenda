@@ -20,7 +20,7 @@ namespace Agenda
 
             ManagerActivitati managerActivitati = new ManagerActivitati();
 
-            while (continua)
+            while (continua) 
             {
                 Console.WriteLine("Lista optiunilor:\n" +
                     "C. Adauga o activitate.\n" +
