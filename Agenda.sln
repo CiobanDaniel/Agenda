@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34622.214
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Agenda", "Agenda.csproj", "{73A5ED88-9F31-4E3A-8CA0-89F9B2A4C635}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Agenda", "Agenda\Agenda.csproj", "{73A5ED88-9F31-4E3A-8CA0-89F9B2A4C635}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ManagerDate", "..\ManagerActivitatiFisier\ManagerDate.csproj", "{FC5F9FA9-735E-44B7-AAE1-0DC3D96C373F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ManagerDate", "ManagerActivitatiFisier\ManagerDate.csproj", "{FC5F9FA9-735E-44B7-AAE1-0DC3D96C373F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Obiect", "..\Activitate\Obiect.csproj", "{E2A3A475-968E-4CB6-8B7C-3604C660C184}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Obiect", "Activitate\Obiect.csproj", "{E2A3A475-968E-4CB6-8B7C-3604C660C184}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

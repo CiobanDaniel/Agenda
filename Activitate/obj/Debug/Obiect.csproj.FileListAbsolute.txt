@@ -5,3 +5,10 @@ D:\ProiectPIU\Activitate\obj\Debug\Obiect.csproj.AssemblyReference.cache
 D:\ProiectPIU\Activitate\obj\Debug\Obiect.csproj.CoreCompileInputs.cache
 D:\ProiectPIU\Activitate\obj\Debug\Obiect.dll
 D:\ProiectPIU\Activitate\obj\Debug\Obiect.pdb
+D:\ProiectPIU\Agenda\Activitate\bin\Debug\Obiect.dll.config
+D:\ProiectPIU\Agenda\Activitate\bin\Debug\Obiect.dll
+D:\ProiectPIU\Agenda\Activitate\bin\Debug\Obiect.pdb
+D:\ProiectPIU\Agenda\Activitate\obj\Debug\Obiect.csproj.AssemblyReference.cache
+D:\ProiectPIU\Agenda\Activitate\obj\Debug\Obiect.csproj.CoreCompileInputs.cache
+D:\ProiectPIU\Agenda\Activitate\obj\Debug\Obiect.dll
+D:\ProiectPIU\Agenda\Activitate\obj\Debug\Obiect.pdb

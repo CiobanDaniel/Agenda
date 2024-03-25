@@ -9,3 +9,14 @@ D:\ProiectPIU\ManagerActivitatiFisier\obj\Debug\ManagerDate.csproj.CoreCompileIn
 D:\ProiectPIU\ManagerActivitatiFisier\obj\Debug\ManagerD.D353A0E7.Up2Date
 D:\ProiectPIU\ManagerActivitatiFisier\obj\Debug\ManagerDate.dll
 D:\ProiectPIU\ManagerActivitatiFisier\obj\Debug\ManagerDate.pdb
+D:\ProiectPIU\Agenda\ManagerActivitatiFisier\bin\Debug\ManagerDate.dll.config
+D:\ProiectPIU\Agenda\ManagerActivitatiFisier\bin\Debug\ManagerDate.dll
+D:\ProiectPIU\Agenda\ManagerActivitatiFisier\bin\Debug\ManagerDate.pdb
+D:\ProiectPIU\Agenda\ManagerActivitatiFisier\bin\Debug\Obiect.dll
+D:\ProiectPIU\Agenda\ManagerActivitatiFisier\bin\Debug\Obiect.pdb
+D:\ProiectPIU\Agenda\ManagerActivitatiFisier\bin\Debug\Obiect.dll.config
+D:\ProiectPIU\Agenda\ManagerActivitatiFisier\obj\Debug\ManagerDate.csproj.AssemblyReference.cache
+D:\ProiectPIU\Agenda\ManagerActivitatiFisier\obj\Debug\ManagerDate.csproj.CoreCompileInputs.cache
+D:\ProiectPIU\Agenda\ManagerActivitatiFisier\obj\Debug\ManagerD.D353A0E7.Up2Date
+D:\ProiectPIU\Agenda\ManagerActivitatiFisier\obj\Debug\ManagerDate.dll
+D:\ProiectPIU\Agenda\ManagerActivitatiFisier\obj\Debug\ManagerDate.pdb
