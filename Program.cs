@@ -1,9 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.Configuration;
 using System.Threading;
 using System.Threading.Tasks;
+using Obiect;
+using ManagerDate;
+using System.IO;
 
 namespace Agenda
 {
@@ -12,23 +13,30 @@ namespace Agenda
     {
         static void Main(string[] args)
         {
+            string numeFisier = "Activitati.txt";
+            string locatieFisierSolutie = Directory.GetParent(System.IO.Directory.GetCurrentDirectory()).Parent.Parent.FullName;
+            string caleCompletaFisier = locatieFisierSolutie + "\\" + numeFisier;
 
             bool continua = true;
 
             Activitate activitatenoua = new Activitate();
             int nrActivitati = 0;
+            int nrActivitatiFisier = 0;
 
+            ManagerActivitatiFisier managerActivitatiFisier = new ManagerActivitatiFisier(caleCompletaFisier);
             ManagerActivitati managerActivitati = new ManagerActivitati();
 
             while (continua) 
             {
                 Console.WriteLine("Lista optiunilor:\n" +
                     "C. Adauga o activitate.\n" +
-                    "A. Afiseaza o activitate.\n" +
-                    "D. Afiseaza activitatile din agenda.\n" +
-                    "B. Cautare dupa anumite criterii in agenda.\n" +
-                    "S. Salveaza o activitate in agenda.\n" +
-                    "I. Informatii proiect.\n" +
+                    "I. Afiseaza ultima activitate introdusa.\n" +
+                    "A. Afiseaza activitatile din agenda (din memorie).\n" +
+                    "D. Afiseaza activitatile din fisier.\n" +
+                    "B. Cautare dupa anumite criterii in agenda (in memorie).\n" +
+                    "S. Salveaza o activitate in agenda (in memorie).\n" +
+                    "F. Salveaza o activitate in fisier.\n" +
+                    "P. Informatii proiect.\n" +
                     "X. Iesire din program.\n");
 
                 Console.WriteLine("Alege optiunea: ");
@@ -42,8 +50,8 @@ namespace Agenda
                         activitatenoua = CitireActivitateTastatura();
                         break;
 
-                    case "a":
-                        //Afiseaza o activitate
+                    case "i":
+                        //Afiseaza ultima activitate introdusa
                         AfisareActivitate(activitatenoua);
                         break;
 
@@ -65,21 +73,36 @@ namespace Agenda
                         AfisareActivitatiCautate(activitatiCautate, activitatiCautate.Length);
                         break;
 
-                    case "d":
-                        //Afiseaza toata lista de activitati
+                    case "a":
+                        //Afiseaza toata lista de activitati din memorie
                         Activitate[] activitati = managerActivitati.GetActivitati(out nrActivitati);
                         AfisareActivitati(activitati,nrActivitati);
                         break;
 
+                    case "d":
+                        //Afiseaza lista de activitati din fisier
+                        Activitate[] activitatiFisier = managerActivitatiFisier.GetActivitati(out nrActivitatiFisier);
+                        AfisareActivitati(activitatiFisier, nrActivitatiFisier);
+                        break;
+
                     case "s":
-                        //Salveaza o activitate
+                        //Salveaza o activitate in memorie
                         int idActivitate = nrActivitati + 1;
                         activitatenoua.IdActivitate = idActivitate;
                         //adaugare student in vectorul de obiecte
                         managerActivitati.AdaugaActivitate(activitatenoua);
+
                         break;
 
-                    case "i":
+                    case "f":
+                        //Salveaza o activitate in fisier
+                        activitatenoua.IdActivitate = ++nrActivitatiFisier;
+                        //adaugare student in fisier
+                        managerActivitatiFisier.SalveazaActivitati(activitatenoua);
+
+                        break;
+
+                    case "p":
                         //Afiseaza informatii despre proiect
                         Console.WriteLine("Nume proiect: Agenda\n" +
                             "Nume student: Cioban Daniel\n" +

@@ -32,6 +32,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -43,13 +46,24 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Activitate.cs" />
-    <Compile Include="ManagerActivitati.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Activitate\Obiect.csproj">
+      <Project>{e2a3a475-968e-4cb6-8b7c-3604c660c184}</Project>
+      <Name>Obiect</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ManagerActivitatiFisier\ManagerDate.csproj">
+      <Project>{fc5f9fa9-735e-44b7-aae1-0dc3d96c373f}</Project>
+      <Name>ManagerDate</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
