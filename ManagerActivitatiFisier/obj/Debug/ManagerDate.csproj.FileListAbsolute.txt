@@ -1,0 +1,11 @@
+D:\ProiectPIU\ManagerActivitatiFisier\bin\Debug\ManagerDate.dll.config
+D:\ProiectPIU\ManagerActivitatiFisier\bin\Debug\ManagerDate.dll
+D:\ProiectPIU\ManagerActivitatiFisier\bin\Debug\ManagerDate.pdb
+D:\ProiectPIU\ManagerActivitatiFisier\bin\Debug\Obiect.dll
+D:\ProiectPIU\ManagerActivitatiFisier\bin\Debug\Obiect.pdb
+D:\ProiectPIU\ManagerActivitatiFisier\bin\Debug\Obiect.dll.config
+D:\ProiectPIU\ManagerActivitatiFisier\obj\Debug\ManagerDate.csproj.AssemblyReference.cache
+D:\ProiectPIU\ManagerActivitatiFisier\obj\Debug\ManagerDate.csproj.CoreCompileInputs.cache
+D:\ProiectPIU\ManagerActivitatiFisier\obj\Debug\ManagerD.D353A0E7.Up2Date
+D:\ProiectPIU\ManagerActivitatiFisier\obj\Debug\ManagerDate.dll
+D:\ProiectPIU\ManagerActivitatiFisier\obj\Debug\ManagerDate.pdb

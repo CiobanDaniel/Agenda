@@ -1,0 +1,7 @@
+D:\ProiectPIU\Activitate\bin\Debug\Obiect.dll.config
+D:\ProiectPIU\Activitate\bin\Debug\Obiect.dll
+D:\ProiectPIU\Activitate\bin\Debug\Obiect.pdb
+D:\ProiectPIU\Activitate\obj\Debug\Obiect.csproj.AssemblyReference.cache
+D:\ProiectPIU\Activitate\obj\Debug\Obiect.csproj.CoreCompileInputs.cache
+D:\ProiectPIU\Activitate\obj\Debug\Obiect.dll
+D:\ProiectPIU\Activitate\obj\Debug\Obiect.pdb
