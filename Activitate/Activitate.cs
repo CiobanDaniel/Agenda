@@ -10,6 +10,64 @@ namespace Obiect
 {
     public class Activitate
     {
+        //Laborator 5
+        public enum TipActivitate
+        {
+            MUNCA = 1,
+            SPORT = 2,
+            EDUCATIE = 3,
+            PETRECERE = 4,
+            NECUNOSCUT = 0
+        }
+
+        public enum Prioritate
+        {
+            MIC = 1,
+            MEDIU = 2,
+            MARE = 3,
+            NECUNOSCUT = 0
+        }
+
+        public enum Stare
+        {
+            IN_CURS = 1,
+            TERMINATA = 2,
+            NECUNOSCUT = 0
+        }
+
+        [Flags]
+        public enum ZileSaptamana
+        {
+            Necunoscut = 0b_0000_0000,
+            Luni = 0b_0000_0001,
+            Marti = 0b_0000_0010,
+            Miercuri = 0b_0000_0100,
+            Joi = 0b_0000_0100,
+            Vineri = 0b_0001_0000,
+            Sambata = 0b_0010_0000,
+            Duminica = 0b_0100_0000,
+            Weekend = Sambata | Duminica
+        }
+
+        [Flags]
+        public enum LunaAn
+        {
+            Necunoscut = 0b_0000_0000,
+            Ianuarie = 0b_0000_0001,
+            Februarie = 0b_0000_0010,
+            Martie = 0b_0000_0100,
+            Aprilie = 0b_0000_1000,
+            Mai = 0b_0001_0000,
+            Iunie = 0b_0010_0000,
+            Iulie = 0b_0100_0000,
+            August = 0b_1000_0000,
+            Septembrie = 0b_0000_0001_0000,
+            Octombrie = 0b_0000_0010_0000,
+            Noiembrie = 0b_0000_0100_0000,
+            Decembrie = 0b_0000_1000_0000
+        }
+        //Sfarsit laborator 5
+
         private const char SEPARATOR_PRINCIPAL_FISIER = ';';
         private const bool SUCCES = true;
 
