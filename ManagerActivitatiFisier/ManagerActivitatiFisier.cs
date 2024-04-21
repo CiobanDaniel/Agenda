@@ -32,7 +32,7 @@ namespace ManagerDate
 
         public Activitate[] GetActivitati(out int nrActivitati)
         {
-            Activitate[] studenti = new Activitate[NR_MAX_ACTIVITATI];
+            Activitate[] activitate = new Activitate[NR_MAX_ACTIVITATI];
 
             using (StreamReader streamReader = new StreamReader(numeFisier))
             {
@@ -41,13 +41,13 @@ namespace ManagerDate
 
                 while ((linieFisier = streamReader.ReadLine()) != null)
                 {
-                    studenti[nrActivitati++] = new Activitate(linieFisier);
+                    activitate[nrActivitati++] = new Activitate(linieFisier);
                 }
             }
 
-            Array.Resize(ref studenti, nrActivitati);
+            Array.Resize(ref activitate, nrActivitati);
 
-            return studenti;
+            return activitate;
         }
     }
 }

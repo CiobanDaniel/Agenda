@@ -69,7 +69,7 @@ namespace Obiect
         //Sfarsit laborator 5
 
         private const char SEPARATOR_PRINCIPAL_FISIER = ';';
-        private const bool SUCCES = true;
+        //private const bool SUCCES = true;
 
         private const int NUME = 0;
         private const int TIP = 1;
