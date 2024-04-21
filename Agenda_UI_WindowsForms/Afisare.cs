@@ -154,7 +154,7 @@ namespace Agenda_UI_WindowsForms
                 //adaugare control de tip Label pentru notele studentilor
                 lblsTip[i] = new Label();
                 lblsTip[i].Width = LATIME_CONTROL;
-                lblsTip[i].Text = activitate.Tip;
+                lblsTip[i].Text = $"{activitate.Tip}";
                 lblsTip[i].Left = DIMENSIUNE_PAS_X + DIMENSIUNE_PAS_LABEL_X;
                 lblsTip[i].Top = (i + 2) * DIMENSIUNE_PAS_Y;
                 this.Controls.Add(lblsTip[i]);
@@ -162,7 +162,7 @@ namespace Agenda_UI_WindowsForms
                 //adaugare control de tip Label pentru descriere
                 lblsTip[i] = new Label();
                 lblsTip[i].Width = LATIME_CONTROL;
-                lblsTip[i].Text = activitate.Tip;
+                lblsTip[i].Text = activitate.Descriere;
                 lblsTip[i].Left = 3 * DIMENSIUNE_PAS_X + DIMENSIUNE_PAS_LABEL_X;
                 lblsTip[i].Top = (i + 2) * DIMENSIUNE_PAS_Y;
                 this.Controls.Add(lblsTip[i]);

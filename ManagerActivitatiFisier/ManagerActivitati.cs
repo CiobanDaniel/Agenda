@@ -49,7 +49,7 @@ namespace ManagerDate
             for(int i = 0; i<nrActivitati; i++)
             {
                 bool matchNume = string.IsNullOrEmpty(nume) || activitati[i].Nume.Equals(nume, StringComparison.OrdinalIgnoreCase);
-                bool matchTip = string.IsNullOrEmpty(tip) || activitati[i].Tip.Equals(tip, StringComparison.OrdinalIgnoreCase);
+                bool matchTip = string.IsNullOrEmpty(tip) || Enum.IsDefined( typeof(Activitate.TipActivitate),activitati[i].Tip);
                 bool matchData = data == DateTime.MinValue || activitati[i].Data.Date == data.Date;
 
                 if (matchNume && matchTip && matchData)

@@ -160,7 +160,7 @@ namespace Agenda
         public static void AfisareActivitate(Activitate activitate)
         {
             string detalii = $"Activitate: {activitate.Nume ?? " NECUNOSCUT "}\n" +
-                $"Tipul: {activitate.Tip ?? " NECUNOSCUT "}\n" +
+                $"Tipul: {activitate.Tip}\n" +
                 $"Ziua si timpul: {activitate.Data}\n" +
                 $"Descrierea: {activitate.Descriere ?? " NECUNOSCUT "}\n";
 

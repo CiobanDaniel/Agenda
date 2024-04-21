@@ -80,13 +80,14 @@ namespace Obiect
         public string Nume { get; set; }
         public DateTime Data { get; set; }
         public string Descriere { get; set; }
-        public string Tip { get; set; }
+        public TipActivitate Tip { get; set; }
         public int IdActivitate { get; set; }
 
         // Constructor default
         public Activitate() 
         {
-            Nume = Descriere = Tip = string.Empty;
+            Nume = Descriere = string.Empty;
+            Tip = TipActivitate.NECUNOSCUT;
             Data = DateTime.MinValue;
         }
 
@@ -96,7 +97,8 @@ namespace Obiect
             Nume = _nume;
             Data = _data;
             Descriere = _descriere;
-            Tip = _tip;
+            Enum.TryParse(_tip, out TipActivitate tip);
+            Tip = tip;
         }
 
         //Constructor citire din fisier
@@ -109,12 +111,13 @@ namespace Obiect
             this.Nume = dateFisier[NUME];
             this.Data = DateTime.Parse(dateFisier[DATA]);
             this.Descriere = dateFisier[DESCRIERE];
-            this.Tip = dateFisier[TIP];
+            Enum.TryParse(dateFisier[TIP], out TipActivitate tip);
+            this.Tip = tip;
         }
         public string Detalii()
         {
             string detalii = $"Activitate: {Nume ?? " NECUNOSCUT "}\n" +
-                $"Tipul: {Tip ?? " NECUNOSCUT "}\n" +
+                $"Tipul: {Tip}\n" +
                 $"Ziua si timpul: {$"{Data}" ?? "NECUNOSCUT"}\n" +
                 $"Descrierea: {Descriere ?? " NECUNOSCUT "}\n";
 
@@ -134,7 +137,7 @@ namespace Obiect
             string activitatePentruFisier = string.Format("{1}{0}{2}{0}{3}{0}{4}{0}{5}",
                 SEPARATOR_PRINCIPAL_FISIER,
                 (Nume ?? " NECUNOSCUT "),
-                (Tip ?? " NECUNOSCUT "),
+                Enum.GetName(typeof(TipActivitate), Tip),
                 timp.ToString(),
                 (Descriere ?? " NECUNOSCUT "),
                 IdActivitate.ToString());

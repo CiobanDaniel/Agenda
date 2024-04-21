@@ -13,8 +13,8 @@ namespace Agenda_UI_WindowsForms
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            //Application.Run(new Citire());
-            Application.Run(new Afisare());
+            Application.Run(new Citire());
+            //Application.Run(new Afisare());
         }
     }
 }
