@@ -1,182 +1,553 @@
-﻿//Laborator 7
-
-using System;
+﻿using System;
+using System.Collections.Generic;
+using System.Configuration;
+using System.Drawing;
+using System.Globalization;
+using System.IO;
 using System.Windows.Forms;
 using Obiect;
 using ManagerDate;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Configuration;
-using System.Data;
-using System.Drawing;
-using System.IO;
+using System.Runtime.CompilerServices;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Agenda_UI_WindowsForms
 {
     public partial class Citire : Form
     {
+        enum CriteriiCautare
+        {
+            Nimic = 0,
+            Nume = 1,
+            Tip = 2,
+            Prioritate = 3,
+        }
+
         ManagerActivitatiFisier managerActivitatiFisier;
 
         private Label lblActivitate;
         private Label lblData;
         private Label lblTip;
         private Label lblDescriere;
+        private Label lblPrioritate;
+        private Label lblOptiuni;
+
+        private Label lblLinie;
 
         private TextBox txtActivitate;
         private DateTimePicker dtpData;
         private ComboBox lstTip;
-        private TextBox txtTip;
         private TextBox txtDescriere;
 
-        //private Label[] lblsActivitate;
-        //private Label[] lblsData;
-        //private Label[] lblsTip;
-        //private Label[] lblsDescriere;
+        private CheckBox checkOptiune1;
+        private CheckBox checkOptiune2;
+        private CheckBox checkOptiune3;
+
+        private RadioButton rbPrioritate0;
+        private RadioButton rbPrioritate1;
+        private RadioButton rbPrioritate2;
+        private RadioButton rbPrioritate3;
+
+        private static readonly string dateFormat = "yyyy-MM-ddTHH:mmZ";
 
         private Button btnAdauga;
         private Button btnAfiseaza;
+        private Button btnCauta;
+        private Button btnSterge;
+        private Button btnAscunde;
+        private DataGridView dgvAfisare;
+
+        private ComboBox cbCriteriu;
+        private TextBox txtCautare;
 
         private const int LATIME_CONTROL = 100;
+        private const int LATIME_BUTON = 170;
         private const int LATIME_CONTROL_TEXT = 400;
         private const int LATIME_CONTROL_DESCRIERE = 400;
         private const int LUNGIME_CONTROL_DESCRIERE = 100;
         private const int DIMENSIUNE_PAS_LABEL_X = 40;
         private const int DIMENSIUNE_PAS_Y = 30;
-        private const int DIMENSIUNE_PAS_X = 160;
+        private const int DIMENSIUNE_PAS_X = 190;
+
+        private static int widthAfisare = 1500;
+        private static int widthForm = 600;
+        private static int heightForm = 400;
 
         public Citire()
         {
             InitializeComponent();
 
             string numeFisier = ConfigurationManager.AppSettings["NumeFisier"];
-            string locatieFisierSolutie = Directory.GetParent(System.IO.Directory.GetCurrentDirectory()).Parent.Parent.FullName;
-            string caleCompletaFisier = locatieFisierSolutie + "\\" + numeFisier;
+            string locatieFisierSolutie = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.FullName;
+            string caleCompletaFisier = Path.Combine(locatieFisierSolutie, numeFisier);
 
             managerActivitatiFisier = new ManagerActivitatiFisier(caleCompletaFisier);
             int nrActivitatiFisier = 0;
             Activitate[] activitatiFisier = managerActivitatiFisier.GetActivitati(out nrActivitatiFisier);
 
-
-            this.Size = new Size(700, 400);
+            this.Size = new Size(widthForm, heightForm);
             this.StartPosition = FormStartPosition.Manual;
             this.Location = new Point(100, 100);
             this.Font = new Font("Arial", 9, FontStyle.Bold);
-            this.ForeColor = Color.Aquamarine;
+            //this.ForeColor = Color.Aquamarine;
+            this.BackColor = Color.LightGray;
             this.Text = "Agenda";
 
-            //adaugare control de tip Label pentru 'Activitate';
-            lblActivitate = new Label();
-            lblActivitate.Width = LATIME_CONTROL;
-            lblActivitate.Text = "Nume activitate:";
-            lblActivitate.Left = DIMENSIUNE_PAS_LABEL_X;
-            lblActivitate.Top = DIMENSIUNE_PAS_Y;
-            lblActivitate.ForeColor = Color.DarkBlue;
+            // DataGridView setup
+            dgvAfisare = new DataGridView
+            {
+                Top = DIMENSIUNE_PAS_Y,
+                Left = widthForm + 100,
+                Width = 730,
+                Height = 300,
+                ColumnCount = 6,
+                AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill,
+                ForeColor = Color.DarkBlue,
+                SelectionMode = DataGridViewSelectionMode.FullRowSelect,
+                MultiSelect = false,
+            };
+            dgvAfisare.Hide();
+            dgvAfisare.AutoResizeColumns();
+            this.Controls.Add(dgvAfisare);
+
+            dgvAfisare.Columns[0].HeaderText = "Nume";
+            dgvAfisare.Columns[1].HeaderText = "Tip";
+            dgvAfisare.Columns[2].HeaderText = "Data";
+            dgvAfisare.Columns[3].HeaderText = "Descriere";
+            dgvAfisare.Columns[4].HeaderText = "Prioritate";
+            dgvAfisare.Columns[5].HeaderText = "Optiuni";
+
+            // Label for 'Activitate'
+            lblActivitate = new Label
+            {
+                Width = LATIME_CONTROL,
+                Text = "Nume activitate:",
+                Left = DIMENSIUNE_PAS_LABEL_X,
+                Top = DIMENSIUNE_PAS_Y,
+                ForeColor = Color.DarkBlue
+            };
             this.Controls.Add(lblActivitate);
 
-            //adaugare control de tip TextBox pentru 'Activitate';
-            txtActivitate = new TextBox();
-            txtActivitate.Width = LATIME_CONTROL_TEXT;
-            txtActivitate.Left = DIMENSIUNE_PAS_X;
-            txtActivitate.Top = DIMENSIUNE_PAS_Y;
+            // TextBox for 'Activitate'
+            txtActivitate = new TextBox
+            {
+                Width = LATIME_CONTROL_TEXT,
+                Left = DIMENSIUNE_PAS_X,
+                Top = DIMENSIUNE_PAS_Y
+            };
             this.Controls.Add(txtActivitate);
 
-            //adaugare control de tip Label pentru 'Data';
-            lblData = new Label();
-            lblData.Width = LATIME_CONTROL;
-            lblData.Text = "Data:";
-            lblData.Left = DIMENSIUNE_PAS_LABEL_X;
-            lblData.Top = 3 * DIMENSIUNE_PAS_Y;
-            lblData.ForeColor = Color.DarkBlue;
+            // Label for 'Data'
+            lblData = new Label
+            {
+                Width = LATIME_CONTROL,
+                Text = "Data:",
+                Left = DIMENSIUNE_PAS_LABEL_X,
+                Top = 3 * DIMENSIUNE_PAS_Y,
+                ForeColor = Color.DarkBlue
+            };
             this.Controls.Add(lblData);
 
-            //adaugare control de tip DateTimePicker pentru 'Data';
-            dtpData = new DateTimePicker();
-            dtpData.Width = LATIME_CONTROL_TEXT;
-            dtpData.Format = DateTimePickerFormat.Custom;
-            dtpData.CustomFormat = "dd.MM.yyyy HH:mm";
-            dtpData.Left = DIMENSIUNE_PAS_X;
-            dtpData.Top = 3 * DIMENSIUNE_PAS_Y;
+            // DateTimePicker for 'Data'
+            dtpData = new DateTimePicker
+            {
+                Width = LATIME_CONTROL_TEXT,
+                Format = DateTimePickerFormat.Custom,
+                CustomFormat = "dd.MM.yyyy HH:mm",
+                Left = DIMENSIUNE_PAS_X,
+                Top = 3 * DIMENSIUNE_PAS_Y
+            };
             this.Controls.Add(dtpData);
 
-            //adaugare control de tip Label pentru 'Tip';
-            lblTip = new Label();
-            lblTip.Width = LATIME_CONTROL;
-            lblTip.Text = "Tip:";
-            lblTip.Left = DIMENSIUNE_PAS_LABEL_X;
-            lblTip.Top = 2 * DIMENSIUNE_PAS_Y;
-            lblTip.ForeColor = Color.DarkBlue;
+            // Label for 'Tip'
+            lblTip = new Label
+            {
+                Width = LATIME_CONTROL,
+                Text = "Tip:",
+                Left = DIMENSIUNE_PAS_LABEL_X,
+                Top = 2 * DIMENSIUNE_PAS_Y,
+                ForeColor = Color.DarkBlue
+            };
             this.Controls.Add(lblTip);
 
-            //adaugare control de tip ListBox pentru 'Tip';
-            lstTip = new ComboBox();
-            lstTip.DataSource = Enum.GetValues(typeof(Activitate.TipActivitate));
-            lstTip.DropDownStyle = ComboBoxStyle.DropDownList;
-            lstTip.FormattingEnabled = true;
-            lstTip.Width = LATIME_CONTROL_TEXT;
-            lstTip.Left = DIMENSIUNE_PAS_X;
-            lstTip.Top = 2 * DIMENSIUNE_PAS_Y;
-            lstTip.ForeColor = Color.DarkBlue;
+            // ComboBox for 'Tip'
+            lstTip = new ComboBox
+            {
+                DataSource = Enum.GetValues(typeof(Activitate.TipActivitate)),
+                DropDownStyle = ComboBoxStyle.DropDownList,
+                Width = LATIME_CONTROL_TEXT,
+                Left = DIMENSIUNE_PAS_X,
+                Top = 2 * DIMENSIUNE_PAS_Y,
+                ForeColor = Color.DarkBlue
+            };
             this.Controls.Add(lstTip);
 
-            //adaugare control de tip Label pentru 'Descriere';
-            lblDescriere = new Label();
-            lblDescriere.Width = LATIME_CONTROL;
-            lblDescriere.Text = "Descriere:";
-            lblDescriere.Left = DIMENSIUNE_PAS_LABEL_X;
-            lblDescriere.Top = 4 * DIMENSIUNE_PAS_Y;
-            lblDescriere.ForeColor = Color.DarkBlue;
+            // Label for 'Descriere'
+            lblDescriere = new Label
+            {
+                Width = LATIME_CONTROL,
+                Text = "Descriere:",
+                Left = DIMENSIUNE_PAS_LABEL_X,
+                Top = 4 * DIMENSIUNE_PAS_Y,
+                ForeColor = Color.DarkBlue
+            };
             this.Controls.Add(lblDescriere);
 
-            //adaugare control de tip TextBox pentru 'Descriere';
-            txtDescriere = new TextBox();
-            txtDescriere.Width = LATIME_CONTROL_DESCRIERE;
-            txtDescriere.Height = LUNGIME_CONTROL_DESCRIERE;
-            txtDescriere.WordWrap = true;
-            txtDescriere.AcceptsReturn = false;
-            txtDescriere.Multiline = false;
-            txtDescriere.Left = DIMENSIUNE_PAS_X;
-            txtDescriere.Top = 4 * DIMENSIUNE_PAS_Y;
+            // TextBox for 'Descriere'
+            txtDescriere = new TextBox
+            {
+                Width = LATIME_CONTROL_DESCRIERE,
+                Height = LUNGIME_CONTROL_DESCRIERE,
+                WordWrap = true,
+                AcceptsReturn = false,
+                Multiline = false,
+                Left = DIMENSIUNE_PAS_X,
+                Top = 4 * DIMENSIUNE_PAS_Y
+            };
             this.Controls.Add(txtDescriere);
 
+            // Label for 'Prioritate'
+            lblPrioritate = new Label
+            {
+                Width = LATIME_CONTROL,
+                Text = "Prioritate:",
+                Left = DIMENSIUNE_PAS_LABEL_X,
+                Top = 5 * DIMENSIUNE_PAS_Y,
+                ForeColor = Color.DarkBlue
+            };
+            this.Controls.Add(lblPrioritate);
 
-            //adaugare control de tip Button pentru 'Adauga';
-            btnAdauga = new Button();
-            btnAdauga.Width = LATIME_CONTROL;
-            btnAdauga.Text = "Adauga";
-            btnAdauga.Left = DIMENSIUNE_PAS_LABEL_X;
-            btnAdauga.Top = 6 * DIMENSIUNE_PAS_Y;
+            // RadioButton for 'Prioritate'
+            rbPrioritate0 = new RadioButton
+            {
+                Appearance = Appearance.Normal,
+                Text = Enum.GetName(typeof(Activitate.TipPrioritate), 0),
+                Width = 100,
+                Left = DIMENSIUNE_PAS_X + 10,
+                Top = 5 * DIMENSIUNE_PAS_Y,
+                ForeColor = Color.DarkBlue,
+                Checked = true
+            };
+            this.Controls.Add(rbPrioritate0);
+
+            rbPrioritate1 = new RadioButton
+            {
+                Appearance = Appearance.Normal,
+                Text = Enum.GetName(typeof(Activitate.TipPrioritate), 1),
+                Width = 80,
+                Left = DIMENSIUNE_PAS_X + 100 + DIMENSIUNE_PAS_LABEL_X,
+                Top = 5 * DIMENSIUNE_PAS_Y,
+                ForeColor = Color.DarkBlue,
+            };
+            this.Controls.Add(rbPrioritate1);
+
+            rbPrioritate2 = new RadioButton
+            {
+                Appearance = Appearance.Normal,
+                Text = Enum.GetName(typeof(Activitate.TipPrioritate), 2),
+                Width = 80,
+                Left = DIMENSIUNE_PAS_X + 160 + 2 * DIMENSIUNE_PAS_LABEL_X,
+                Top = 5 * DIMENSIUNE_PAS_Y,
+                ForeColor = Color.DarkBlue,
+            };
+            this.Controls.Add(rbPrioritate2);
+
+            rbPrioritate3 = new RadioButton
+            {
+                Appearance = Appearance.Normal,
+                Text = Enum.GetName(typeof(Activitate.TipPrioritate), 3),
+                Width = 80,
+                Left = DIMENSIUNE_PAS_X + 220 + 3 * DIMENSIUNE_PAS_LABEL_X,
+                Top = 5 * DIMENSIUNE_PAS_Y,
+                ForeColor = Color.DarkBlue,
+            };
+            this.Controls.Add(rbPrioritate3);
+
+            // Label for 'Optiuni'
+            lblOptiuni = new Label
+            {
+                Width = LATIME_CONTROL,
+                Text = "Optiuni:",
+                Left = DIMENSIUNE_PAS_LABEL_X,
+                Top = 6 * DIMENSIUNE_PAS_Y,
+                ForeColor = Color.DarkBlue
+            };
+            this.Controls.Add(lblOptiuni);
+
+            // CheckBox for 'Optiuni'
+            checkOptiune1 = new CheckBox
+            {
+                Appearance = Appearance.Normal,
+                Text = Enum.GetName(typeof(Activitate.TipOptiuni),1),
+                Width = 100,
+                Left = DIMENSIUNE_PAS_X + 10,
+                Top = 6 * DIMENSIUNE_PAS_Y,
+                ForeColor = Color.DarkBlue,
+            };
+            this.Controls.Add(checkOptiune1);
+
+            checkOptiune2 = new CheckBox
+            {
+                Appearance = Appearance.Normal,
+                Text = Enum.GetName(typeof(Activitate.TipOptiuni), 2),
+                Width = 100,
+                Left = DIMENSIUNE_PAS_X + 100 + DIMENSIUNE_PAS_LABEL_X,
+                Top = 6 * DIMENSIUNE_PAS_Y,
+                ForeColor = Color.DarkBlue,
+            };
+            this.Controls.Add(checkOptiune2);
+
+            checkOptiune3 = new CheckBox
+            {
+                Appearance = Appearance.Normal,
+                Text = Enum.GetName(typeof(Activitate.TipOptiuni), 3),
+                Width = 100,
+                Left = DIMENSIUNE_PAS_X + 200 + 2 * DIMENSIUNE_PAS_LABEL_X,
+                Top = 6 * DIMENSIUNE_PAS_Y,
+                ForeColor = Color.DarkBlue,
+            };
+            this.Controls.Add(checkOptiune3);
+
+            // Label for 'Linie'
+            lblLinie = new Label
+            {
+                Width = 2,
+                BorderStyle = BorderStyle.FixedSingle,
+                Text = string.Empty,
+                Left = widthForm + 50,
+                Top = DIMENSIUNE_PAS_Y,
+                AutoSize = false,
+                Height = 330,
+                BackColor = Color.Black,
+            };
+            lblLinie.Hide();
+            this.Controls.Add(lblLinie);
+
+            // Button for 'Adauga'
+            btnAdauga = new Button
+            {
+                Width = LATIME_BUTON,
+                Text = "Adauga",
+                Left = DIMENSIUNE_PAS_LABEL_X,
+                Top = 7 * DIMENSIUNE_PAS_Y,
+                ForeColor = Color.DarkBlue,
+                BackColor = Color.White
+            };
             btnAdauga.Click += BtnAdauga_Click;
-            btnAdauga.ForeColor = Color.DarkBlue;
             this.Controls.Add(btnAdauga);
 
-            //adaugare control de tip Button pentru 'Afiseaza';
-            btnAfiseaza = new Button();
-            btnAfiseaza.Width = LATIME_CONTROL;
-            btnAfiseaza.Text = "Afiseaza";
-            btnAfiseaza.Left = 2 * DIMENSIUNE_PAS_X;
-            btnAfiseaza.Top = 6 * DIMENSIUNE_PAS_Y;
+            // Button for 'Afiseaza'
+            btnAfiseaza = new Button
+            {
+                Width = LATIME_BUTON,
+                Text = "Afiseaza",
+                Left = DIMENSIUNE_PAS_LABEL_X + DIMENSIUNE_PAS_X,
+                Top = 7 * DIMENSIUNE_PAS_Y,
+                ForeColor = Color.DarkBlue,
+                BackColor = Color.White
+            };
             btnAfiseaza.Click += BtnAfiseaza_Click;
-            btnAfiseaza.ForeColor = Color.DarkBlue;
             this.Controls.Add(btnAfiseaza);
+
+            // Button for 'Cauta'
+            btnCauta = new Button
+            {
+                Width = LATIME_BUTON,
+                Text = "Cauta",
+                Left = DIMENSIUNE_PAS_LABEL_X,
+                Top = 8 * DIMENSIUNE_PAS_Y,
+                ForeColor = Color.DarkBlue,
+                BackColor = Color.White
+            };
+            btnCauta.Click += BtnCauta_Click;
+            this.Controls.Add(btnCauta);
+
+            // Button for 'Sterge'
+            btnSterge = new Button
+            {
+                Width = LATIME_BUTON,
+                Text = "Sterge",
+                Left = widthForm + 300,
+                Top = 11 * DIMENSIUNE_PAS_Y + 5,
+                ForeColor = Color.DarkBlue,
+                BackColor = Color.White
+            };
+            btnSterge.Hide();
+            btnSterge.Click += BtnSterge_Click;
+            this.Controls.Add(btnSterge);
+
+            // Button for 'Ascunde'
+            btnAscunde = new Button
+            {
+                Width = LATIME_BUTON,
+                Text = "Ascunde",
+                Left = widthForm + 100,
+                Top = 11 * DIMENSIUNE_PAS_Y + 5,
+                ForeColor = Color.DarkBlue,
+                BackColor = Color.White
+            };
+            btnAscunde.Hide();
+            btnAscunde.Click += BtnAscunde_Click;
+            this.Controls.Add(btnAscunde);
+
+            // ComboBox for 'Cautare'
+            cbCriteriu = new ComboBox
+            {
+                DataSource = Enum.GetValues(typeof(CriteriiCautare)),
+                Width = LATIME_CONTROL,
+                Left = DIMENSIUNE_PAS_LABEL_X + DIMENSIUNE_PAS_X,
+                Top = 8 * DIMENSIUNE_PAS_Y,
+                ForeColor = Color.DarkBlue
+            };
+            this.Controls.Add(cbCriteriu);
+
+            // TextBox for 'Cautare'
+            txtCautare = new TextBox
+            {
+                Text = null,
+                Width = LATIME_CONTROL_TEXT,
+                Left = DIMENSIUNE_PAS_LABEL_X,
+                Top = 9 * DIMENSIUNE_PAS_Y,
+                ForeColor = Color.DarkBlue
+            };
+            this.Controls.Add(txtCautare);
         }
 
-        private void BtnAfiseaza_Click(object sender, EventArgs e)
+        private void rbPrioritate0_Click(object sender, EventArgs e)
         {
-            AfiseazaActivitati();
+            rbPrioritate0.Checked = true;
+            rbPrioritate1.Checked = false;
+            rbPrioritate2.Checked = false;
+            rbPrioritate3.Checked = false;
+        }
+        private void rbPrioritate1_Click(object sender, EventArgs e)
+        {
+            rbPrioritate0.Checked = false;
+            rbPrioritate1.Checked = true;
+            rbPrioritate2.Checked = false;
+            rbPrioritate3.Checked = false;
+        }
+        private void rbPrioritate2_Click(object sender, EventArgs e)
+        {
+            rbPrioritate0.Checked = false;
+            rbPrioritate1.Checked = false;
+            rbPrioritate2.Checked = true;
+            rbPrioritate3.Checked = false;
+        }
+        private void rbPrioritate3_Click(object sender, EventArgs e)
+        {
+            rbPrioritate0.Checked = false;
+            rbPrioritate1.Checked = false;
+            rbPrioritate2.Checked = false;
+            rbPrioritate3.Checked = true;
+        }
+
+        private void BtnCauta_Click(object sender, EventArgs e)
+        {
+            if (cbCriteriu.SelectedItem.ToString() != "Nimic" && txtCautare.Text != null)
+            {
+                this.Size = new Size(widthAfisare, heightForm + 56);
+                btnCauta.ForeColor = Color.DarkBlue;
+                dgvAfisare.Show();
+                dgvAfisare.Rows.Clear();
+                lblLinie.Show();
+                btnAscunde.Show();
+                btnSterge.Show();
+                string criteriu = cbCriteriu.SelectedItem.ToString();
+                string valoareCautare = txtCautare.Text;
+                int nrActivitatiFisier = 0;
+                Activitate[] activitati = managerActivitatiFisier.GetActivitati(out nrActivitatiFisier);
+
+                var rezultateCautare = activitati.Where(a => {
+                    switch (criteriu)
+                    {
+                        case "Nume":
+                            return a.Nume.IndexOf(valoareCautare, StringComparison.OrdinalIgnoreCase) >= 0;
+                        case "Tip":
+                            return a.Tip.ToString().IndexOf(valoareCautare, StringComparison.OrdinalIgnoreCase) >= 0;
+                        case "Prioritate":
+                            return a.Prioritate.ToString().IndexOf(valoareCautare, StringComparison.OrdinalIgnoreCase) >= 0;
+                        default:
+                            return false;
+                    }
+                }).ToArray();
+
+                dgvAfisare.Rows.Clear();
+                dgvAfisare.Show();
+
+                foreach (Activitate activitate in rezultateCautare)
+                {
+                    DataGridViewRow row = new DataGridViewRow();
+                    row.CreateCells(dgvAfisare);
+                    row.Cells[0].Value = activitate.Nume;
+                    row.Cells[1].Value = activitate.Tip;
+                    row.Cells[2].Value = activitate.Data;
+                    row.Cells[3].Value = activitate.Descriere;
+                    row.Cells[4].Value = activitate.Prioritate;
+                    row.Cells[5].Value = string.Join(",", activitate.Optiuni);
+
+                    dgvAfisare.Rows.Add(row);
+                }
+            }
+            else
+            {
+                btnCauta.ForeColor = Color.Red;
+            }
+        }
+
+        private void BtnSterge_Click(object sender, EventArgs e)
+        {
+            Activitate[] activitatiFisier = managerActivitatiFisier.GetActivitati(out int nrActivitatiFisier);
+            if (dgvAfisare.CurrentCell.RowIndex == -1)
+            {
+                btnSterge.ForeColor = Color.Red;
+                return;
+            }
+            else
+            {
+                int index = dgvAfisare.CurrentCell.RowIndex;
+                btnSterge.ForeColor = Color.DarkBlue;
+                managerActivitatiFisier.StergeActivitate(activitatiFisier[index]);
+                AfiseazaActivitati();
+            }
+        }
+
+        private void BtnAscunde_Click(object sender, EventArgs e)
+        {
+            dgvAfisare.Hide();
+            lblLinie.Hide();
+            btnAscunde.Hide();
+            this.Size = new Size(widthForm + 97, heightForm + 56);
         }
 
         private void BtnAdauga_Click(object sender, EventArgs e)
         {
+            dgvAfisare.Hide();
+            lblLinie.Hide();
+            btnAscunde.Hide();
+            btnSterge.Hide();
+            this.Size = new Size(widthForm + 97, heightForm + 56);
             // Citirea unei activități noi de la utilizator și adăugarea în manager
             Activitate activitateNoua = CitireActivitate();
             if (activitateNoua != null)
             {
                 managerActivitatiFisier.SalveazaActivitati(activitateNoua);
             }
-            //AfiseazaActivitati();
+            txtActivitate.Text = string.Empty;
+            txtDescriere.Text = string.Empty;
+            lstTip.SelectedIndex = 0;
+            checkOptiune1.Checked = false;
+            checkOptiune2.Checked = false;
+            checkOptiune3.Checked = false;
+            rbPrioritate0.Checked = true;
+            rbPrioritate1.Checked = false;
+            rbPrioritate2.Checked = false;
+            rbPrioritate3.Checked = false;
+        }
+
+        private void BtnAfiseaza_Click(object sender, EventArgs e)
+        {
+            this.Size = new Size(widthAfisare, heightForm + 56);
+            AfiseazaActivitati();
         }
 
         private Activitate CitireActivitate()
@@ -184,7 +555,6 @@ namespace Agenda_UI_WindowsForms
             // Citirea detaliilor activității din controalele formularului
             if (string.IsNullOrEmpty(txtActivitate.Text))
             {
-                MessageBox.Show("Introduceti numele activitatii!");
                 lblActivitate.ForeColor = Color.Red;
                 return null;
             }
@@ -194,103 +564,87 @@ namespace Agenda_UI_WindowsForms
                 string nume = txtActivitate.Text.Trim();
                 //string tip = lstTip.SelectedItem.ToString();
                 string tip = lstTip.Text;
-                DateTime data = dtpData.Value;
+                string data = dtpData.Text;
                 string descriere = txtDescriere.Text.Trim();
+                string prioritate = "0";
+                if (rbPrioritate1.Checked == true)
+                {
+                    prioritate = "1";
+                }
+                if (rbPrioritate2.Checked == true)
+                {
+                    prioritate = "2";
+                }
+                if (rbPrioritate3.Checked == true)
+                {
+                    prioritate = "3";
+                }
 
-                // Crearea unei noi activități cu detaliile citite
-                return new Activitate(nume, tip, data, descriere);
+                List<string> optiuniList = new List<string>();
+                optiuniList.Add(Convert.ToString(Activitate.TipOptiuni.Fara));
+                if (checkOptiune1.Checked | checkOptiune2.Checked | checkOptiune3.Checked)
+                {
+                    optiuniList.Clear();
+                }
+                if (checkOptiune1.Checked)
+                    optiuniList.Add(checkOptiune1.Text);
+
+                if (checkOptiune2.Checked)
+                    optiuniList.Add(checkOptiune2.Text);
+
+                if (checkOptiune3.Checked)
+                    optiuniList.Add(checkOptiune3.Text);
+
+                string[] optiuni = optiuniList.ToArray();
+
+                DateTime parsedDate;
+                if (DateTime.TryParseExact(dtpData.Text, "dd.MM.yyyy HH:mm", CultureInfo.InvariantCulture, DateTimeStyles.None, out parsedDate))
+                {
+                    string formattedDate = parsedDate.ToString("dd.MM.yyyy HH:mm");
+
+                    // Crearea unei noi activități cu detaliile citite
+                    return new Activitate(nume, tip, formattedDate, descriere, prioritate, optiuni);
+                }
+
+                return new Activitate();
+
+                //return new Activitate(nume, tip, data, descriere, prioritate, optiuni);
             }
         }
 
         private void AfiseazaActivitati()
         {
+            dgvAfisare.Show();
+            dgvAfisare.Rows.Clear();
+            lblLinie.Show();
+            btnAscunde.Show();
+            btnSterge.Show();
             Activitate[] activitatiFisier = managerActivitatiFisier.GetActivitati(out int nrActivitatiFisier);
 
-            Label[] lblsActivitate = new Label[nrActivitatiFisier];
-            Label[] lblsData = new Label[nrActivitatiFisier];
-            Label[] lblsTip = new Label[nrActivitatiFisier];
-            Label[] lblsDescriere = new Label[nrActivitatiFisier];
-
-            //adaugare control de tip Label pentru 'Activitate';
-            lblActivitate = new Label();
-            lblActivitate.Width = LATIME_CONTROL;
-            lblActivitate.Text = "Nume activitate:";
-            lblActivitate.Left = DIMENSIUNE_PAS_LABEL_X;
-            lblActivitate.Top = 7 * DIMENSIUNE_PAS_Y;
-            lblActivitate.ForeColor = Color.DarkBlue;
-            lblActivitate.TextAlign = ContentAlignment.MiddleCenter;
-            this.Controls.Add(lblActivitate);
-
-            //adaugare control de tip Label pentru 'Tip';
-            lblTip = new Label();
-            lblTip.Width = LATIME_CONTROL;
-            lblTip.Text = "Tip:";
-            lblTip.Left = DIMENSIUNE_PAS_LABEL_X + DIMENSIUNE_PAS_X;
-            lblTip.Top = 7 * DIMENSIUNE_PAS_Y;
-            lblTip.ForeColor = Color.DarkBlue;
-            lblTip.TextAlign = ContentAlignment.MiddleCenter;
-            this.Controls.Add(lblTip);
-
-            //adaugare control de tip Label pentru 'Data';
-            lblData = new Label();
-            lblData.Width = LATIME_CONTROL;
-            lblData.Text = "Data:";
-            lblData.Left = DIMENSIUNE_PAS_LABEL_X + 2 * DIMENSIUNE_PAS_X;
-            lblData.Top = 7 * DIMENSIUNE_PAS_Y;
-            lblData.ForeColor = Color.DarkBlue;
-            lblData.TextAlign = ContentAlignment.MiddleCenter;
-            this.Controls.Add(lblData);
-
-            //adaugare control de tip Label pentru 'Descriere';
-            lblDescriere = new Label();
-            lblDescriere.Width = LATIME_CONTROL;
-            lblDescriere.Text = "Descriere:";
-            lblDescriere.Left = DIMENSIUNE_PAS_LABEL_X + 3 * DIMENSIUNE_PAS_X;
-            lblDescriere.Top = 7 * DIMENSIUNE_PAS_Y;
-            lblDescriere.ForeColor = Color.DarkBlue;
-            lblDescriere.TextAlign = ContentAlignment.MiddleCenter;
-            this.Controls.Add(lblDescriere);
-
-            int i = 0;
-            foreach (Activitate activitate in activitatiFisier)
+            foreach (var activitate in activitatiFisier)
             {
-                //adaugare control de tip Label pentru activitati
-                lblsActivitate[i] = new Label();
-                lblsActivitate[i].Width = LATIME_CONTROL;
-                lblsActivitate[i].Text = activitate.Nume;
-                lblsActivitate[i].Left = DIMENSIUNE_PAS_LABEL_X;
-                lblsActivitate[i].Top = (i + 8) * DIMENSIUNE_PAS_Y;
-                lblsActivitate[i].ForeColor = Color.DarkBlue;
-                this.Controls.Add(lblsActivitate[i]);
+                string optiuniString;
+                if (activitate.Optiuni != null)
+                {
+                    optiuniString = string.Join(",", activitate.Optiuni);
+                }
+                else
+                {
+                    optiuniString = " Fara ";
+                }
 
-                //adaugare control de tip Label pentru date
-                lblsData[i] = new Label();
-                lblsData[i].Width = LATIME_CONTROL;
-                lblsData[i].Text = $"{DateTime.Parse(activitate.Data.ToString())}";
-                lblsData[i].Left = 2 * DIMENSIUNE_PAS_X + DIMENSIUNE_PAS_LABEL_X;
-                lblsData[i].Top = (i + 8) * DIMENSIUNE_PAS_Y;
-                lblsData[i].ForeColor = Color.DarkBlue;
-                this.Controls.Add(lblsData[i]);
+                DateTime parsedDate;
 
-                //adaugare control de tip Label pentru tip
-                lblsTip[i] = new Label();
-                lblsTip[i].Width = LATIME_CONTROL;
-                lblsTip[i].Text = activitate.Tip.ToString();
-                lblsTip[i].Left = DIMENSIUNE_PAS_X + DIMENSIUNE_PAS_LABEL_X;
-                lblsTip[i].Top = (i + 8) * DIMENSIUNE_PAS_Y;
-                lblsTip[i].ForeColor = Color.DarkBlue;
-                this.Controls.Add(lblsTip[i]);
-
-                //adaugare control de tip Label pentru descriere
-                lblsDescriere[i] = new Label();
-                lblsDescriere[i].Width = LATIME_CONTROL;
-                lblsDescriere[i].Text = activitate.Descriere;
-                lblsDescriere[i].Left = 3 * DIMENSIUNE_PAS_X + DIMENSIUNE_PAS_LABEL_X;
-                lblsDescriere[i].Top = (i + 8) * DIMENSIUNE_PAS_Y;
-                lblsDescriere[i].ForeColor = Color.DarkBlue;
-                this.Controls.Add(lblsDescriere[i]);
-
-                i++;
+                if (DateTime.TryParseExact(activitate.Data, "yyyy-MM-ddTHH:mmZ", CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal, out parsedDate) ||
+                    DateTime.TryParse(activitate.Data, out parsedDate))
+                {
+                    string formattedDate = parsedDate.ToString("dd.MM.yyyy HH:mm");
+                    dgvAfisare.Rows.Add(activitate.Nume, activitate.Tip, formattedDate, activitate.Descriere, activitate.Prioritate, optiuniString);
+                }
+                else
+                {
+                    dgvAfisare.Rows.Add(activitate.Nume, activitate.Tip, activitate.Data, activitate.Descriere, activitate.Prioritate, optiuniString);
+                }
             }
         }
     }

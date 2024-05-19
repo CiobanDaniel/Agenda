@@ -20,3 +20,14 @@ D:\ProiectPIU\Agenda\ManagerActivitatiFisier\obj\Debug\ManagerDate.csproj.CoreCo
 D:\ProiectPIU\Agenda\ManagerActivitatiFisier\obj\Debug\ManagerD.D353A0E7.Up2Date
 D:\ProiectPIU\Agenda\ManagerActivitatiFisier\obj\Debug\ManagerDate.dll
 D:\ProiectPIU\Agenda\ManagerActivitatiFisier\obj\Debug\ManagerDate.pdb
+C:\Users\danie\Desktop\Agenda\ManagerActivitatiFisier\bin\Debug\ManagerDate.dll.config
+C:\Users\danie\Desktop\Agenda\ManagerActivitatiFisier\bin\Debug\ManagerDate.dll
+C:\Users\danie\Desktop\Agenda\ManagerActivitatiFisier\bin\Debug\ManagerDate.pdb
+C:\Users\danie\Desktop\Agenda\ManagerActivitatiFisier\bin\Debug\Obiect.dll
+C:\Users\danie\Desktop\Agenda\ManagerActivitatiFisier\bin\Debug\Obiect.pdb
+C:\Users\danie\Desktop\Agenda\ManagerActivitatiFisier\bin\Debug\Obiect.dll.config
+C:\Users\danie\Desktop\Agenda\ManagerActivitatiFisier\obj\Debug\ManagerDate.csproj.AssemblyReference.cache
+C:\Users\danie\Desktop\Agenda\ManagerActivitatiFisier\obj\Debug\ManagerDate.csproj.CoreCompileInputs.cache
+C:\Users\danie\Desktop\Agenda\ManagerActivitatiFisier\obj\Debug\ManagerD.D353A0E7.Up2Date
+C:\Users\danie\Desktop\Agenda\ManagerActivitatiFisier\obj\Debug\ManagerDate.dll
+C:\Users\danie\Desktop\Agenda\ManagerActivitatiFisier\obj\Debug\ManagerDate.pdb

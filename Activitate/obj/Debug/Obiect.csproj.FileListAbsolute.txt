@@ -12,3 +12,10 @@ D:\ProiectPIU\Agenda\Activitate\obj\Debug\Obiect.csproj.AssemblyReference.cache
 D:\ProiectPIU\Agenda\Activitate\obj\Debug\Obiect.csproj.CoreCompileInputs.cache
 D:\ProiectPIU\Agenda\Activitate\obj\Debug\Obiect.dll
 D:\ProiectPIU\Agenda\Activitate\obj\Debug\Obiect.pdb
+C:\Users\danie\Desktop\Agenda\Activitate\bin\Debug\Obiect.dll.config
+C:\Users\danie\Desktop\Agenda\Activitate\bin\Debug\Obiect.dll
+C:\Users\danie\Desktop\Agenda\Activitate\bin\Debug\Obiect.pdb
+C:\Users\danie\Desktop\Agenda\Activitate\obj\Debug\Obiect.csproj.AssemblyReference.cache
+C:\Users\danie\Desktop\Agenda\Activitate\obj\Debug\Obiect.csproj.CoreCompileInputs.cache
+C:\Users\danie\Desktop\Agenda\Activitate\obj\Debug\Obiect.dll
+C:\Users\danie\Desktop\Agenda\Activitate\obj\Debug\Obiect.pdb

@@ -49,5 +49,31 @@ namespace ManagerDate
 
             return activitate;
         }
+
+        public void StergeActivitate(Activitate activitate)
+        {
+            string tempFile = Path.GetTempFileName();
+
+            using (StreamReader reader = new StreamReader(numeFisier))
+            using (StreamWriter writer = new StreamWriter(tempFile))
+            {
+                string linie;
+                bool activitateStearsa = false;
+
+                while ((linie = reader.ReadLine()) != null)
+                {
+                    if (!activitateStearsa && linie.Equals(activitate.ConversieLaSir_PentruFisier()))
+                    {
+                        activitateStearsa = true;
+                        continue; // Sărim peste activitatea de șters
+                    }
+
+                    writer.WriteLine(linie);
+                }
+            }
+
+            File.Delete(numeFisier);
+            File.Move(tempFile, numeFisier);
+        }
     }
 }

@@ -1,5 +1,7 @@
-;3;4/21/2024 4:23:10 PM;;0
-;2;4/21/2024 4:24:56 PM;;0
-;SPORT;4/21/2024 4:40:26 PM;;0
-;EDUCATIE;4/21/2024 4:41:11 PM;;0
-Cina;PETRECERE;4/21/2024 4:53:54 PM;;0
+0;Cina;RECREERE;5/19/2024 9:35:56 PM;;Necunoscuta;Fara
+0;Concurs;EDUCATIE;5/19/2024 9:36:24 PM;;Necunoscuta;Fara
+0;Petrecere;RECREERE;25.05.2024 21:38;;Mica;Notificare
+0;Sedinta;MUNCA;5/19/2024 9:39:35 PM;;Necunoscuta;Fara
+0;Sedinta;MUNCA;5/19/2024 9:39:50 PM;;Necunoscuta;Fara
+0;Cina;RECREERE;5/19/2024 9:42:21 PM;;Necunoscuta;Fara
+0;Facturi;MUNCA;2024-05-19T21:55Z;;Mare;Fara

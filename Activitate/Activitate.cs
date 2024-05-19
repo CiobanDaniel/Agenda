@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlTypes;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,71 +17,46 @@ namespace Obiect
             MUNCA = 1,
             SPORT = 2,
             EDUCATIE = 3,
-            PETRECERE = 4,
+            RECREERE = 4,
             NECUNOSCUT = 0
         }
 
-        public enum Prioritate
+        public enum TipPrioritate
         {
-            MIC = 1,
-            MEDIU = 2,
-            MARE = 3,
-            NECUNOSCUT = 0
-        }
-
-        public enum Stare
-        {
-            IN_CURS = 1,
-            TERMINATA = 2,
-            NECUNOSCUT = 0
+            Mica = 1,
+            Medie = 2,
+            Mare = 3,
+            Necunoscuta = 0
         }
 
         [Flags]
-        public enum ZileSaptamana
+        public enum TipOptiuni
         {
-            Necunoscut = 0b_0000_0000,
-            Luni = 0b_0000_0001,
-            Marti = 0b_0000_0010,
-            Miercuri = 0b_0000_0100,
-            Joi = 0b_0000_0100,
-            Vineri = 0b_0001_0000,
-            Sambata = 0b_0010_0000,
-            Duminica = 0b_0100_0000,
-            Weekend = Sambata | Duminica
-        }
-
-        [Flags]
-        public enum LunaAn
-        {
-            Necunoscut = 0b_0000_0000,
-            Ianuarie = 0b_0000_0001,
-            Februarie = 0b_0000_0010,
-            Martie = 0b_0000_0100,
-            Aprilie = 0b_0000_1000,
-            Mai = 0b_0001_0000,
-            Iunie = 0b_0010_0000,
-            Iulie = 0b_0100_0000,
-            August = 0b_1000_0000,
-            Septembrie = 0b_0000_0001_0000,
-            Octombrie = 0b_0000_0010_0000,
-            Noiembrie = 0b_0000_0100_0000,
-            Decembrie = 0b_0000_1000_0000
-        }
+            Fara = 0,
+            Notificare = 1,
+            Repetare = 2,
+            Alarma = 3
+        };
         //Sfarsit laborator 5
 
+        private static readonly string dateFormat = "yyyy-MM-ddTHH:mmZ";
         private const char SEPARATOR_PRINCIPAL_FISIER = ';';
         //private const bool SUCCES = true;
 
-        private const int NUME = 0;
-        private const int TIP = 1;
-        private const int DATA = 2;
-        private const int DESCRIERE = 3;
-        private const int IDACTIVITATE = 4;
+        private const int NUME = 1;
+        private const int TIP = 2;
+        private const int DATA = 3;
+        private const int DESCRIERE = 4;
+        private const int PRIORITATE = 5;
+        private const int OPTIUNI = 6;
+        private const int IDACTIVITATE = 0;
 
         public string Nume { get; set; }
-        public DateTime Data { get; set; }
+        public string Data { get; set; }
         public string Descriere { get; set; }
         public TipActivitate Tip { get; set; }
+        public TipPrioritate Prioritate { get; set; }
+        public string[] Optiuni { get; set; }
         public int IdActivitate { get; set; }
 
         // Constructor default
@@ -88,17 +64,22 @@ namespace Obiect
         {
             Nume = Descriere = string.Empty;
             Tip = TipActivitate.NECUNOSCUT;
-            Data = DateTime.MinValue;
+            Data = DateTime.Now.ToString();
+            Descriere = string.Empty;
+            Prioritate = TipPrioritate.Necunoscuta;
         }
 
         // Constructor citire de la tastatura
-        public Activitate(string _nume, string _tip, DateTime _data, string _descriere)
+        public Activitate(string _nume, string _tip, string _data, string _descriere, string _prioritate, string[] _optiuni)
         {
             Nume = _nume;
             Data = _data;
             Descriere = _descriere;
             Enum.TryParse(_tip, out TipActivitate tip);
             Tip = tip;
+            Optiuni = _optiuni;
+            Enum.TryParse(_prioritate, out TipPrioritate prioritate);
+            Prioritate = prioritate;
         }
 
         //Constructor citire din fisier
@@ -109,10 +90,13 @@ namespace Obiect
             //ordinea de preluare a campurilor este data de ordinea in care au fost scrise in fisier prin apelul implicit al metodei ConversieLaSir_PentruFisier()
             this.IdActivitate = Convert.ToInt32(dateFisier[IDACTIVITATE]);
             this.Nume = dateFisier[NUME];
-            this.Data = DateTime.Parse(dateFisier[DATA]);
+            this.Data = dateFisier[DATA];
             this.Descriere = dateFisier[DESCRIERE];
             Enum.TryParse(dateFisier[TIP], out TipActivitate tip);
             this.Tip = tip;
+            Enum.TryParse(dateFisier[PRIORITATE], out TipPrioritate prioritate);
+            this.Prioritate = prioritate;
+            this.Optiuni = dateFisier[OPTIUNI].Split(',');
         }
         public string Detalii()
         {
@@ -125,22 +109,35 @@ namespace Obiect
         }
         public string ConversieLaSir_PentruFisier()
         {
-            DateTime timp;
-            if (DateTime.TryParse(Data.ToString(), out timp))
+            string timp;
+            DateTime result;
+
+            if (DateTime.TryParse(Data, out result) || DateTime.TryParseExact(Data, dateFormat, CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal, out result))
             {
-                timp = Data;
+                timp = result.ToString(dateFormat);
             }
             else
             {
-                timp = DateTime.MinValue;
+                timp = DateTime.Now.ToString(dateFormat);
             }
-            string activitatePentruFisier = string.Format("{1}{0}{2}{0}{3}{0}{4}{0}{5}",
+            string optiuniString;
+            if (Optiuni != null)
+            {
+                optiuniString = string.Join(",", Optiuni);
+            }
+            else
+            {
+                optiuniString = string.Empty;
+            }
+            string activitatePentruFisier = string.Format("{1}{0}{2}{0}{3}{0}{4}{0}{5}{0}{6}{0}{7}",
                 SEPARATOR_PRINCIPAL_FISIER,
+                IdActivitate.ToString(),
                 (Nume ?? " NECUNOSCUT "),
                 Enum.GetName(typeof(TipActivitate), Tip),
-                timp.ToString(),
+                timp,
                 (Descriere ?? " NECUNOSCUT "),
-                IdActivitate.ToString());
+                Enum.GetName(typeof(TipPrioritate), Prioritate),
+                (optiuniString ?? " FARA "));
 
             return activitatePentruFisier;
         }

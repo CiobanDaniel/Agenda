@@ -28,11 +28,6 @@ namespace Agenda_UI_WindowsForms
         private Label lblTip;
         private Label lblDescriere;
 
-        private Label[] lblsActivitate;
-        private Label[] lblsData;
-        private Label[] lblsTip;
-        private Label[] lblsDescriere;
-
         private const int LATIME_CONTROL = 100;
         private const int DIMENSIUNE_PAS_LABEL_X = 40;
         private const int DIMENSIUNE_PAS_Y = 30;

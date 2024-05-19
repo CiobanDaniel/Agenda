@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -47,10 +48,15 @@ namespace ManagerDate
         {
             List<Activitate> rezultate = new List<Activitate>();
             for(int i = 0; i<nrActivitati; i++)
-            {
+            {   
+                DateTime result = DateTime.Now;
                 bool matchNume = string.IsNullOrEmpty(nume) || activitati[i].Nume.Equals(nume, StringComparison.OrdinalIgnoreCase);
                 bool matchTip = string.IsNullOrEmpty(tip) || Enum.IsDefined( typeof(Activitate.TipActivitate),activitati[i].Tip);
-                bool matchData = data == DateTime.MinValue || activitati[i].Data.Date == data.Date;
+                bool matchData = false;
+                if (DateTime.TryParse(activitati[i].Data, out result) == true && result == data.Date)
+                {
+                    matchData = true;
+                }
 
                 if (matchNume && matchTip && matchData)
                 {
