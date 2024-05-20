@@ -54,6 +54,7 @@ namespace Agenda_UI_WindowsForms
         private Button btnCauta;
         private Button btnSterge;
         private Button btnAscunde;
+        private Button btnRefresh;
         private DataGridView dgvAfisare;
 
         private ComboBox cbCriteriu;
@@ -389,6 +390,20 @@ namespace Agenda_UI_WindowsForms
             btnAscunde.Click += BtnAscunde_Click;
             this.Controls.Add(btnAscunde);
 
+            // Button for 'Refresh'
+            btnRefresh = new Button
+            {
+                Width = LATIME_BUTON,
+                Text = "Refresh",
+                Left = widthForm + 500,
+                Top = 11 * DIMENSIUNE_PAS_Y + 5,
+                ForeColor = Color.DarkBlue,
+                BackColor = Color.White
+            };
+            btnRefresh.Hide();
+            btnRefresh.Click += BtnRefresh_Click;
+            this.Controls.Add(btnRefresh);
+
             // ComboBox for 'Cautare'
             cbCriteriu = new ComboBox
             {
@@ -525,6 +540,7 @@ namespace Agenda_UI_WindowsForms
             lblLinie.Hide();
             btnAscunde.Hide();
             btnSterge.Hide();
+            btnRefresh.Hide();
             this.Size = new Size(widthForm + 97, heightForm + 56);
             // Citirea unei activități noi de la utilizator și adăugarea în manager
             Activitate activitateNoua = CitireActivitate();
@@ -545,6 +561,12 @@ namespace Agenda_UI_WindowsForms
         }
 
         private void BtnAfiseaza_Click(object sender, EventArgs e)
+        {
+            this.Size = new Size(widthAfisare, heightForm + 56);
+            AfiseazaActivitati();
+        }
+
+        private void BtnRefresh_Click(object sender, EventArgs e)
         {
             this.Size = new Size(widthAfisare, heightForm + 56);
             AfiseazaActivitati();
@@ -598,7 +620,8 @@ namespace Agenda_UI_WindowsForms
                 string[] optiuni = optiuniList.ToArray();
 
                 DateTime parsedDate;
-                if (DateTime.TryParseExact(dtpData.Text, "dd.MM.yyyy HH:mm", CultureInfo.InvariantCulture, DateTimeStyles.None, out parsedDate))
+                if (DateTime.TryParseExact(dtpData.Text, "yyyy-MM-ddTHH:mmZ", CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal, out parsedDate) ||
+                    DateTime.TryParse(dtpData.Text, out parsedDate) || DateTime.TryParseExact(dtpData.Text, "MM-dd-yyytTHH:mmZ", CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal, out parsedDate))
                 {
                     string formattedDate = parsedDate.ToString("dd.MM.yyyy HH:mm");
 
@@ -619,6 +642,7 @@ namespace Agenda_UI_WindowsForms
             lblLinie.Show();
             btnAscunde.Show();
             btnSterge.Show();
+            btnRefresh.Show();
             Activitate[] activitatiFisier = managerActivitatiFisier.GetActivitati(out int nrActivitatiFisier);
 
             foreach (var activitate in activitatiFisier)
@@ -636,7 +660,7 @@ namespace Agenda_UI_WindowsForms
                 DateTime parsedDate;
 
                 if (DateTime.TryParseExact(activitate.Data, "yyyy-MM-ddTHH:mmZ", CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal, out parsedDate) ||
-                    DateTime.TryParse(activitate.Data, out parsedDate))
+                    DateTime.TryParse(activitate.Data, out parsedDate) || DateTime.TryParseExact(activitate.Data, "MM-dd-yyytTHH:mmZ", CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal, out parsedDate))
                 {
                     string formattedDate = parsedDate.ToString("dd.MM.yyyy HH:mm");
                     dgvAfisare.Rows.Add(activitate.Nume, activitate.Tip, formattedDate, activitate.Descriere, activitate.Prioritate, optiuniString);
