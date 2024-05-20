@@ -112,13 +112,13 @@ namespace Obiect
             string timp;
             DateTime result;
 
-            if (DateTime.TryParse(Data, out result) || DateTime.TryParseExact(Data, dateFormat, CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal, out result))
+            if (DateTime.TryParse(Data, out result))
             {
-                timp = result.ToString(dateFormat);
+                timp = result.ToString(/*dateFormat*/);
             }
             else
             {
-                timp = DateTime.Now.ToString(dateFormat);
+                timp = DateTime.Now.ToString(/*dateFormat*/);
             }
             string optiuniString;
             if (Optiuni != null)

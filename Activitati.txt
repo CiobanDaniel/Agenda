@@ -1,11 +1,2 @@
-0;Cina;RECREERE;5/19/2024 9:35:56 PM;;Necunoscuta;Fara
-0;Concurs;EDUCATIE;5/19/2024 9:36:24 PM;;Necunoscuta;Fara
-0;Petrecere;RECREERE;25.05.2024 21:38;;Mica;Notificare
-0;Sedinta;MUNCA;5/19/2024 9:39:35 PM;;Necunoscuta;Fara
-0;Sedinta;MUNCA;5/19/2024 9:39:50 PM;;Necunoscuta;Fara
-0;Cina;RECREERE;5/19/2024 9:42:21 PM;;Necunoscuta;Fara
-0;Facturi;MUNCA;2024-05-19T21:55Z;;Mare;Fara
-0;Inot;SPORT;2024-05-27T07:40Z;;Mica;Notificare
-0;Inot;SPORT;2024-05-27T07:40Z;;Mica;Alarma
-0;Inot;SPORT;2024-05-20T07:42Z;;Mica;Notificare,Repetare
-0;;NECUNOSCUT;2024-05-20T07:47Z;;Necunoscuta;
+0;Cina;RECREERE;23.05.2024 08:36:00;;Necunoscuta;Fara
+0;Inot;SPORT;21.05.2024 08:36:00;;Necunoscuta;Notificare

@@ -47,8 +47,6 @@ namespace Agenda_UI_WindowsForms
         private RadioButton rbPrioritate2;
         private RadioButton rbPrioritate3;
 
-        private static readonly string dateFormat = "yyyy-MM-ddTHH:mmZ";
-
         private Button btnAdauga;
         private Button btnAfiseaza;
         private Button btnCauta;
@@ -458,6 +456,8 @@ namespace Agenda_UI_WindowsForms
 
         private void BtnCauta_Click(object sender, EventArgs e)
         {
+            btnAdauga.ForeColor = Color.DarkBlue;
+            btnSterge.ForeColor = Color.DarkBlue;
             if (cbCriteriu.SelectedItem.ToString() != "Nimic" && txtCautare.Text != null)
             {
                 this.Size = new Size(widthAfisare, heightForm + 56);
@@ -511,15 +511,17 @@ namespace Agenda_UI_WindowsForms
 
         private void BtnSterge_Click(object sender, EventArgs e)
         {
+            btnAdauga.ForeColor = Color.DarkBlue;
+            btnCauta.ForeColor = Color.DarkBlue;
             Activitate[] activitatiFisier = managerActivitatiFisier.GetActivitati(out int nrActivitatiFisier);
-            if (dgvAfisare.CurrentCell.RowIndex == -1)
+            int index = dgvAfisare.CurrentCell.RowIndex;
+            if (index == -1 || nrActivitatiFisier == index)
             {
                 btnSterge.ForeColor = Color.Red;
                 return;
             }
             else
             {
-                int index = dgvAfisare.CurrentCell.RowIndex;
                 btnSterge.ForeColor = Color.DarkBlue;
                 managerActivitatiFisier.StergeActivitate(activitatiFisier[index]);
                 AfiseazaActivitati();
@@ -574,6 +576,8 @@ namespace Agenda_UI_WindowsForms
 
         private Activitate CitireActivitate()
         {
+            lblActivitate.ForeColor = Color.DarkBlue;
+            btnSterge.ForeColor = Color.DarkBlue;
             // Citirea detaliilor activității din controalele formularului
             if (string.IsNullOrEmpty(txtActivitate.Text))
             {
@@ -582,7 +586,7 @@ namespace Agenda_UI_WindowsForms
             }
             else
             {
-                lblActivitate.ForeColor = Color.DarkBlue;
+                btnCauta.ForeColor = Color.DarkBlue;
                 string nume = txtActivitate.Text.Trim();
                 //string tip = lstTip.SelectedItem.ToString();
                 string tip = lstTip.Text;

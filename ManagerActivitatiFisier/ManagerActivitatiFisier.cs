@@ -54,7 +54,7 @@ namespace ManagerDate
         {
             string tempFile = Path.GetTempFileName();
 
-            using (StreamReader reader = new StreamReader(numeFisier))
+            using (StreamReader reader = new StreamReader(this.numeFisier))
             using (StreamWriter writer = new StreamWriter(tempFile))
             {
                 string linie;
