@@ -661,18 +661,18 @@ namespace Agenda_UI_WindowsForms
                     optiuniString = " Fara ";
                 }
 
-                DateTime parsedDate;
+                //DateTime parsedDate;
 
-                if (DateTime.TryParseExact(activitate.Data, "yyyy-MM-ddTHH:mmZ", CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal, out parsedDate) ||
-                    DateTime.TryParse(activitate.Data, out parsedDate) || DateTime.TryParseExact(activitate.Data, "MM-dd-yyytTHH:mmZ", CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal, out parsedDate))
-                {
-                    string formattedDate = parsedDate.ToString("dd.MM.yyyy HH:mm");
-                    dgvAfisare.Rows.Add(activitate.Nume, activitate.Tip, formattedDate, activitate.Descriere, activitate.Prioritate, optiuniString);
-                }
-                else
-                {
+                //if (DateTime.TryParseExact(activitate.Data, "yyyy-MM-ddTHH:mmZ", CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal, out parsedDate) ||
+                //    DateTime.TryParse(activitate.Data, out parsedDate) || DateTime.TryParseExact(activitate.Data, "MM-dd-yyytTHH:mmZ", CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal, out parsedDate))
+                //{
+                //    string formattedDate = parsedDate.ToString("dd.MM.yyyy HH:mm");
+                //    dgvAfisare.Rows.Add(activitate.Nume, activitate.Tip, formattedDate, activitate.Descriere, activitate.Prioritate, optiuniString);
+                //}
+                //else
+                //{
                     dgvAfisare.Rows.Add(activitate.Nume, activitate.Tip, activitate.Data, activitate.Descriere, activitate.Prioritate, optiuniString);
-                }
+                //}
             }
         }
     }

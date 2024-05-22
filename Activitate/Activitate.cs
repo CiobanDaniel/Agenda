@@ -112,14 +112,14 @@ namespace Obiect
             string timp;
             DateTime result;
 
-            if (DateTime.TryParse(Data, out result))
-            {
-                timp = result.ToString(/*dateFormat*/);
-            }
-            else
-            {
-                timp = DateTime.Now.ToString(/*dateFormat*/);
-            }
+            //if (DateTime.TryParse(Data, out result))
+            //{
+            //    timp = result.ToString(/*dateFormat*/);
+            //}
+            //else
+            //{
+            //    timp = DateTime.Now.ToString(/*dateFormat*/);
+            //}
             string optiuniString;
             if (Optiuni != null)
             {
@@ -134,7 +134,7 @@ namespace Obiect
                 IdActivitate.ToString(),
                 (Nume ?? " NECUNOSCUT "),
                 Enum.GetName(typeof(TipActivitate), Tip),
-                timp,
+                Data,
                 (Descriere ?? " NECUNOSCUT "),
                 Enum.GetName(typeof(TipPrioritate), Prioritate),
                 (optiuniString ?? " FARA "));
