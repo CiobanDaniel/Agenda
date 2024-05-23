@@ -1,4 +1,2 @@
-0;Cina;RECREERE;23.05.2024 08:36:00;;Necunoscuta;Fara
-0;Inot;SPORT;21.05.2024 08:36:00;;Necunoscuta;Notificare
-0;;NECUNOSCUT;5/22/2024 10:54:28 AM;;Necunoscuta;
-0;B;NECUNOSCUT;24.05.2024 10:54;;Necunoscuta;Fara
+0;A;MUNCA;23.05.2024 08:16;;Necunoscuta;Fara
+0;C;SPORT;30.05.2024 08:16;;Necunoscuta;Fara
